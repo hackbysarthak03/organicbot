@@ -2,6 +2,28 @@
 
 A modern, responsive, and highly interactive AI chatbot tailored specifically for **Svayambhu Organics**. Built with React, Tailwind CSS, and the Google Gemini API, this chatbot provides customers with intelligent, context-aware information about organic products, specifically focusing on Moringa and Curcumin supplements.
 
+## 💡 Why I Built This
+
+In most ecommerce platforms, users are left to browse through products without clear guidance, especially in the **organic and wellness space**, where understanding ingredients and choosing the right product can be confusing.
+
+I built this chatbot to solve that problem by creating a **guided AI shopping assistant** that:
+- Helps users **discover the right product based on their needs**
+- Provides **clear, trustworthy information** about organic ingredients
+- Reduces decision fatigue by offering **personalized recommendations**
+
+Instead of a generic chatbot, the goal was to design a **purpose-built AI experience** that feels like a natural extension of the **Svayambhu Organics brand**.
+
+---
+
+## 🎯 What This Project Does
+
+Organic Bot is a modern, responsive, and highly interactive AI chatbot tailored specifically for **Svayambhu Organics**.
+
+It acts as a **digital product advisor**, helping users:
+- Understand the benefits of Moringa and Curcumin products
+- Get recommendations based on health concerns
+- Interact through a clean, intuitive, and engaging interface
+
 ## 🌟 Key Features
 
 ### 1. Dedicated Corporate AI
