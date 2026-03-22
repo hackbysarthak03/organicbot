@@ -21,15 +21,15 @@ import { SYSTEM_PROMPT } from '../botPrompt';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || 'dummy_to_prevent_crash');
 const model = genAI.getGenerativeModel({ 
-  model: "gemini-2.5-flash",
+  model: "gemini-2.5-flash-lite",
   systemInstruction: SYSTEM_PROMPT,
 });
 
 const SUGGESTIONS = [
-  { id: '1', text: 'Get fresh perspectives on organic farming' },
-  { id: '2', text: 'Brainstorm creative natural recipes' },
-  { id: '3', text: 'Rewrite message for maximum eco-impact' },
-  { id: '4', text: 'Summarize key sustainability points' },
+  { id: '1', text: 'What is Organic Moringa Powder good for?' },
+  { id: '2', text: 'Do you have anything for joint pain?' },
+  { id: '3', text: 'Tell me about your Curcumin products.' },
+  { id: '4', text: 'How do I contact customer support?' },
 ];
 
 const INITIAL_MESSAGES = [];
@@ -207,7 +207,12 @@ export default function ChatBot({ user }) {
 
     } catch (err) {
       console.error("Gemini Error:", err);
-      toast.error("Try in a minute! We'll be back soon", { style: { borderRadius: '12px', background: '#333', color: '#fff', fontSize: '14px' }});
+      // Surface missing API Key errors explicitly
+      if (err.message.includes("API Key configuration required")) {
+        toast.error("Please add your Gemini API Key to the .env file.", { duration: 5000 });
+      } else {
+        toast.error("Try in a minute! We'll be back soon", { style: { borderRadius: '12px', background: '#333', color: '#fff', fontSize: '14px' }});
+      }
     } finally {
       setIsLoading(false);
     }
