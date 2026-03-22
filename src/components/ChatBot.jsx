@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { Send, MessageSquare, RefreshCw, AlertCircle, Sparkles, User, Bot, Leaf, Droplets, ShoppingBag, Mic, MicOff, Trash2, Menu, X, Clock, Plus } from 'lucide-react';
+import { Send, MessageSquare, RefreshCw, Sparkles, User, Bot, Leaf, Droplets, ShoppingBag, Mic, MicOff, Trash2, Menu, X, Clock, Plus } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { useChats } from '../hooks/useChats';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
 gsap.registerPlugin(useGSAP);
 
@@ -49,7 +50,6 @@ export default function ChatBot({ user }) {
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   const [isListening, setIsListening] = useState(false);
@@ -151,7 +151,7 @@ export default function ChatBot({ user }) {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 150);
     }
-  }, [messages, isLoading, error]);
+  }, [messages, isLoading]);
 
   const handleSend = async (e, textOverride = null) => {
     e?.preventDefault();
@@ -160,7 +160,6 @@ export default function ChatBot({ user }) {
 
     if (isListening) toggleListening();
 
-    setError(null);
     const userMsg = { id: Date.now().toString(), role: 'user', content: messageText };
     const newMessages = [...messages, userMsg];
     
@@ -208,7 +207,7 @@ export default function ChatBot({ user }) {
 
     } catch (err) {
       console.error("Gemini Error:", err);
-      setError(err.message || "An unexpected error occurred. Please try again later.");
+      toast.error("Try in a minute! We'll be back soon", { style: { borderRadius: '12px', background: '#333', color: '#fff', fontSize: '14px' }});
     } finally {
       setIsLoading(false);
     }
@@ -217,7 +216,6 @@ export default function ChatBot({ user }) {
   const startNewChat = () => {
     setCurrentSessionId(null);
     setMessages([]);
-    setError(null);
     setIsSidebarOpen(false);
   };
 
@@ -422,15 +420,6 @@ export default function ChatBot({ user }) {
                 <MessageItem key={m.id} message={m} />
               ))}
               {isLoading && <LoadingMessage />}
-              {error && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-3 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 text-base"
-                >
-                  <AlertCircle className="w-5 h-5 shrink-0" />
-                  <p>{error}</p>
-                </motion.div>
-              )}
               <div ref={messagesEndRef} className="h-40 shrink-0 w-full" />
             </motion.div>
             )}
